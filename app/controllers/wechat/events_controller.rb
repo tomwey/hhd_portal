@@ -54,6 +54,8 @@ class Wechat::EventsController < Wechat::ApplicationController
   
   def share
     @event_portal = "#{SiteConfig.hhd_event_portal}/wx/event/portal?" + request.query_string
+    
+    request.headers['foo'] = 'bar'
     # url = request.original_url#"#{SiteConfig.hhd_event_portal}/wx/event/portal?" + request.original_url.split('?').last
     #
     # redirect_url  = "#{SiteConfig.wx_auth_redirect_uri}?url=#{url}"#"#{wechat_auth_redirect_url}?url=#{request.original_url}"
