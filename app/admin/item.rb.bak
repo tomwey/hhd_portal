@@ -1,0 +1,136 @@
+ActiveAdmin.register Item do
+
+menu parent: 'item_sys', priority: 6, label: '活动'
+
+# See permitted parameters documentation:
+# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
+#
+permit_params :title, :sort, :item_content_id, :uid, :rule_type, :address, :range, :started_at, :share_title, :share_icon,
+  item_prizes_attributes: [:id, :score, :prize_type, :use_type, :_destroy],
+  share_item_prizes_attributes: [:id, :score, :prize_type, :use_type, :_destroy]
+
+index do
+  selectable_column
+  column('ID', :uniq_id)
+  column '活动图片', sortable: false do |o|
+    o.image.blank? ? '' : link_to(image_tag(o.image.url(:small)), [:cpanel, o.item_content])
+  end
+  column :title, sortable: false do |o|
+    link_to(o.title, [:cpanel, o.item_content])
+  end
+  column '所有者', sortable: false do |o|
+    link_to o.ownerable.try(:format_nickname) || o.ownerable.try(:email), [:cpanel, o.ownerable]
+  end
+  column '参与奖励', sortable: false do |o|
+    html = ''
+    total_score = o.item_prizes.sum(:score)
+    o.item_prizes.each do |prize|
+      percent =  total_score == 0 ? '0' : 
+       "#{number_to_percentage((prize.score.to_f / total_score * 10000 / 100.00), precision: 2)}"
+      info = "[#{prize.prizeable.try(:type_name)} #{percent}] #{prize.prizeable.try(:sent_status_info)}"
+      html += link_to(info, [:cpanel, prize.prizeable]) + "<br>".html_safe
+    end
+    raw(html)
+  end
+  
+  column '分享奖励', sortable: false do |o|
+    html = ''
+    total_score = o.share_item_prizes.sum(:score)
+    o.share_item_prizes.each do |prize|
+      percent = total_score == 0 ? '0' : 
+        "#{number_to_percentage((prize.score.to_f / total_score * 10000 / 100.00), precision: 2)}"
+      info = "[#{prize.prizeable.try(:type_name)} #{percent}] #{prize.prizeable.try(:sent_status_info)}"
+      html += link_to(info, [:cpanel, prize.prizeable]) + "<br>".html_safe
+    end
+    raw(html)
+  end
+  
+  column('at', :created_at)
+
+  actions defaults: false do |o|
+    item "查看", [:cpanel, o]
+  
+    if not o.opened
+      item "上架", open_cpanel_item_path(o), method: :put, data: { confirm: '您确定吗？' }
+    else
+      item "下架", close_cpanel_item_path(o), method: :put, data: { confirm: '您确定吗？' }
+    end
+    
+    item "编辑", edit_cpanel_item_path(o)
+
+  end
+
+end
+
+# 下架
+batch_action :close do |ids|
+  batch_action_collection.find(ids).each do |e|
+    e.close!
+  end
+  redirect_to collection_path, alert: "已下架"
+end
+member_action :close, method: :put do
+  resource.close!
+  redirect_to collection_path, notice: '已下架'
+end
+
+# 上架
+batch_action :open do |ids|
+  batch_action_collection.find(ids).each do |e|
+    e.open!
+  end
+  redirect_to collection_path, alert: "已上架"
+end
+member_action :open, method: :put do
+  resource.open!
+  redirect_to collection_path, notice: '已上架'
+end
+
+form do |f|
+  f.semantic_errors
+  f.inputs '基本信息' do
+    if f.object.new_record? || !f.object.opened
+      f.input :uid, as: :select, label: '所有者ID', 
+        collection: User.includes(:wechat_profile).where(verified: true)
+                  .order('id desc').map { |u| ["[#{u.uid}] #{u.format_nickname}", u.uid] }, 
+        prompt: '-- 选择所有者 --', required: true, input_html: { style: 'width: 50%;' }
+    end
+    f.input :title
+    f.input :item_content_id, as: :select, label: '活动内容', collection: RedbagEvent.order('id desc').map {|o| [o.title, o.id]},
+           prompt: '-- 选择活动内容 --', input_html: { style: 'width: 240px;' }
+    f.input :rule_type, as: :select, label: '活动规则', collection: Item.rule_types, 
+      prompt: '-- 选择活动规则 --', input_html: { style: 'width: 240px;' }
+      
+    f.input :sort
+    # f.input :opened
+  end
+  
+  f.inputs "参与奖励" do
+    f.has_many :item_prizes, allow_destroy: true, heading: '奖励信息' do |item_form|
+      item_form.input :score, hint: '中奖概率值，是一个整数，如果设置为0，表示不会抽中该奖项'
+      item_form.input :prize_type, as: :select, label: '奖品', collection: ItemPrize.prize_types, 
+        prompt: '-- 选择奖品 --', input_html: { style: 'width: 240px;' }
+    end
+  end
+  
+  f.inputs '分享信息', id: 'redbag-share-inputs' do
+    f.input :share_title, label: '分享标题', hint: '红包分享标题可以自定义，如果没有设置该值，默认用红包的主题作为分享标题'
+    f.input :share_icon, label: '分享图标', hint: '格式为jpg,png,jpeg,gif,尺寸为正方形'
+    f.has_many :share_item_prizes, allow_destroy: true, heading: '奖励信息' do |item_form|
+      item_form.input :score, hint: '中奖概率值，是一个整数，如果设置为0，表示不会抽中该奖项'
+      item_form.input :prize_type, as: :select, label: '奖品', collection: ItemPrize.prize_types, 
+        prompt: '-- 选择奖品 --', input_html: { style: 'width: 240px;' }
+      item_form.input :use_type, as: :hidden, value: '1'
+    end
+  end
+  f.inputs '选填信息' do
+    f.input :address, label: '红包位置', hint: '输入详细的位置，位置前必须要加城市', 
+      placeholder: '例如：成都市绿地世纪城或成都市青羊区西大街1号'
+    f.input :range, label: '限制范围', hint: '单位为米'
+    f.input :started_at, label: '开抢时间', as: :string, placeholder: '2017-09-09 12:09'
+  end
+  
+  actions
+end
+
+end

@@ -1,0 +1,479 @@
+"zh-CN":
+  common:
+    super_admin: '管理员'
+    admin: '管理员'
+    site_editor: '站点编辑'
+    marketer: '市场人员'
+    limited_user: '普通管理员'
+    approved: '已审核'
+    rejected: '已拒绝'
+    pending: '待审核'
+    progressing: '进行中'
+    canceled: '已取消'
+    completed: '已结束'
+    grab_tip: '无'
+    merchant:
+      auth_type_0: '未实名认证'
+      auth_type_1: '实名认证'
+      auth_type_2: '个体户实名认证'
+      auth_type_3: '企业实名认证'
+    hongbao:
+      use_type_1: '广告参与红包'
+      use_type_2: '广告分享红包'
+    redbag:
+      use_type_1: '广告红包'
+      use_type_2: '分享红包'
+      use_type_3: '签到红包'
+      use_type_4: '用户前端红包'
+      use_type_6: '现金红包'
+      use_type_8: '任务红包'
+    card:
+      use_type_1: '固定金额'
+      use_type_2: '固定折扣'
+      use_type_3: '随机金额'
+      use_type_4: '随机折扣'
+    CheckinRule:
+      title: '签到抢红包'
+      grab_tip: '请到如下地址完成签到，可以获得红包！<span style="color: red;">(位置误差不超过%{accuracy}米)</span>'
+      action: '签到抢红包'
+    QuizRule:
+      title: '答题抢红包'
+      grab_tip: '题目的答案在上面的活动内容里面找，注意：只有一次答题的机会！'
+      action: '提交答案，抢红包'
+    LocationCheckin:
+      title: '签到抢红包'
+      grab_tip: '请到如下地址完成签到，可以获得红包！<span style="color: red;">(位置误差不超过%{accuracy}米)</span>'
+      action: '签到抢红包'
+    Question:
+      title: '答题抢红包'
+      grab_tip: '题目的答案在上面的活动内容里面找，注意：只有一次答题的机会！'
+      action: '提交答案，抢红包'
+    SharePoster:
+      title: '分享红包'
+    # SignRule:
+    #   title: '口令红包'
+    #   grab_tip: '注意：只有一次答题的机会！'
+    #   action: '提交口令抢红包'
+  activerecord:
+    models:
+      user: "用户"
+      user_session: '用户会话'
+      admin: "管理员"
+      cpanel: '后台系统' # 此处并不存在真正意义的model，只是为了后台系统的面包屑导航根地址国际化成中文
+      banner: '广告'
+      site_config: "站点配置"
+      page: '网页文档'
+      merchant: '商家'
+      common_config: '系统设置'
+      red_packet: '红包'
+      merchant_home_page: '商家主页'
+      ad: '广告'
+      withdraw: '提现'
+      charge: '充值'
+      trade_log: '交易记录'
+      page: '网页'
+      event: '活动'
+      hongbao: '红包'
+      redbag: '红包信息'
+      item: '活动'
+      item_prize: '活动奖项'
+      card: '优惠卡'
+      user_card: '发卡记录'
+      user_pay: '余额抵扣记录'
+      wechat_redbag_config: '微信现金红包配置'
+      redbag_prize: '红包奖品'
+      lucky_draw: '转盘抽奖'
+      lucky_draw_item: '抽奖奖项'
+      lucky_draw_prize_log: '抽奖记录'
+      redbag_event: '红包活动'
+      redbag_earn_log: '抢红包记录'
+      cash_redbag_log: '现金红包发送记录'
+      redbag_view_log: '红包浏览记录'
+      redbag_share_log: '红包分享记录'
+      redbag_share_earn_log: '红包分享收益记录'
+      checkin: '签到'
+      event_earn_log: '抢红包记录'
+      event_view_log: '活动浏览记录'
+      event_share_log: '活动分享记录'
+      user_channel: '用户来源'
+      user_poster_redbag: '海报红包'
+      like: '点赞'
+      share_poster: '分享海报'
+      wechat_location: '用户位置'
+      attachment: '附件'
+      message_template: '消息模板'
+      message: '消息'
+      question: '题目规则'
+      location_checkin: '位置签到规则'
+      sign_rule: '口令规则'
+      offerwall_channel: '积分墙渠道'
+      offerwall_channel_callback: '积分墙回调记录'
+      admin_user: '登录账号'
+      recharge: '充值'
+      pay_log: '交易明细'
+      redpack: '红包'
+      partin: '广告'
+      partin_view_log: '广告浏览'
+      partin_take_log: '广告参与'
+      partin_share_log: '广告转发'
+      info_item: '广告内容'
+    attributes:
+      user:
+        uid: 'ID'
+        mobile: '手机'
+        nickname: '昵称'
+        avatar: '头像'
+        bio: '简介'
+        wx_id: '微信ID'
+        wx_avatar: '微信头像'
+        balance: '余额'
+        earn: '总收入'
+        private_token: 'TOKEN'
+        verified: '是否有效'
+        created_at: '注册时间'
+        total_prize_count: '抽奖总次数'
+        prized_count: '抽过的次数'
+      user_session:
+        begin_time: '会话开始'
+        end_time: '会话结束'
+      sign_rule:
+        answer: '口令'
+        answer_from_tip: '口令来源提醒'
+        user_id: '所属用户'
+      banner:
+        image: '图片'
+        link: '广告链接'
+        view_count: '浏览数'
+        click_count: '点击数'
+        opened: '是否上架'
+        sort: '显示顺序'
+      message:
+        message_template_id: '所属模板'
+        content: '内容'
+        link: '消息链接地址'
+        to_users: '消息接收人'
+      message_template:
+        tpl_id: '模板ID'
+        title: '标题'
+        body: '内容'
+        body_demo: '使用示例'
+        opened: '是否使用'
+      page:
+        title: '标题'
+        body:  '内容'
+        slug:  '文档标识'
+      event:
+        title: '活动主题'
+        image: '活动图片'
+        body: '活动详情'
+        body_url: '活动详情地址'
+        ownerable: '活动所有者'
+        hbid: '红包ID'
+        location: '活动位置坐标'
+        location_str: '活动详细位置'
+        range: '活动范围(单位千米)'
+        started_at: '红包开抢时间'
+        state: '活动信息状态'
+        view_count: '浏览数'
+        share_count: '分享数'
+        likes_count: '点赞数'
+        sent_hb_count: '活动红包领取数'
+        ruleable: '活动规则'
+        sort: '显示顺序'
+      hongbao:
+        _type: '红包类型'
+        total_money: '红包总金额'
+        min_value: '最小金额'
+        max_value: '最大金额'
+        sent_money: '已发出的金额'
+        value: '单个红包金额'
+        num: '红包个数'
+      user_channel:
+        name: '渠道名'
+        address: '渠道地址'
+        mobile: '联系电话'
+        users_count: '用户数'
+      share_poster:
+        title: '海报名称'
+        image: '内容图片'
+        sender_hb_id: '分享人收益红包'
+        receiver_hb_id: '参与人收益红包'
+      lucky_draw:
+        title: '主题'
+        image: '封面图'
+        plate_image: '转盘图片'
+        arrow_image: '转盘指针图片'
+        background_image: '抽奖背景图'
+        location: '抽奖位置'
+        range: '抽奖范围'
+        view_count: '浏览数'
+        share_count: '分享数'
+        draw_count: '抽奖数'
+        started_at: '抽奖开始时间'
+        opened: '是否上架'
+        prize_desc: '抽奖说明'
+        memo: '备注'
+        sort: '显示顺序'
+      lucky_draw_item:
+        name: '奖项名称'
+        angle: '奖项在奖盘中的旋转角度'
+        quantity: '奖项数量'
+        sent_count: '抽中数量'
+        score: '中奖概率'
+        description: '奖项描述'
+        is_virtual_goods: '是否是虚拟奖品'
+      redbag:
+        title: '主题'
+        _type: '红包类型'
+        total_money: '红包总金额'
+        min_value: '最小金额'
+        max_value: '最大金额'
+        sent_money: '已发出的金额'
+        value: '单个红包金额'
+        quantity: '红包个数'
+        sort: '显示顺序'
+        opened: '是否上架'
+      item:
+        title: '主题'
+        ownerable: '所有者'
+        sort: '显示顺序'
+      item_prize:
+        score: '概率值'
+      redbag_event:
+        title: '标题'
+        image: '封面图'
+        body: '内容'
+        ownerable: '所有者'
+      wechat_redbag_config:
+        send_name: '发送者名称'
+        wishing: '祝福语'
+        act_name: '活动名称'
+        remark: '备注'
+        scene_id: '红包场景'
+      redbag_prize:
+        name: '奖品名'
+        score: '概率值'
+        quantity: '数量'
+        sent_count: '抽中数量'
+      card:
+        uniq_id: 'ID'
+        image: '封面图'
+        title: '卡名称'
+        body: '卡使用说明'
+        limit_use_times: '限制使用次数'
+        limit_duration: '有效期'
+        _type: '类型'
+        discounts: '优惠额度'
+        sent_count: '发出数'
+        share_count: '分享数'
+        use_count: '使用数'
+      question:
+        question: '问题'
+        answers: '答案选项'
+        answer: '正确答案'
+        memo: '备注'
+      location_checkin:
+        address: '签到位置地址'
+        location: '签到位置坐标'
+        checkined_at: '签到截止时间'
+        accuracy: '签到误差'
+      common_config:
+        key: '配置名'
+        value: '配置值'
+        description: '配置说明'
+      attachment:
+        data: '文件'
+        uniq_id: 'ID'
+      offerwall_channel:
+        uniq_id: 'ID'
+        name: '名称'
+        icon: 'ICON'
+        appid: '应用ID'
+        app_secret: '应用密钥'
+        server_secret: '服务器密钥'
+        task_url: '任务接口'
+        platform: '平台'
+        req_sig_method: '接口签名方法'
+        resp_sig_method: '回调签名方法'
+        success_return: '处理成功返回'
+        failure_return: '验证失败返回'
+        sort: '显示顺序'
+        opened: '是否打开'
+      offerwall_channel_callback:
+        order: '渠道订单号'
+        ad_name: '任务名称'
+        order_time: '渠道订单时间'
+        points: '用户收益(积分)'
+        price: '开发者收益(元)'
+        callback_params: '回调参数'
+      event_earn_log:
+        user_id: '用户'
+        event_id: '活动'
+        uniq_id: 'ID'
+        money: '金额'
+        ip: 'IP'
+        location: '位置'
+        created_at: '时间'
+      event_view_log:
+        user_id: '用户'
+        event_id: '活动'
+        ip: 'IP'
+        location: '位置'
+        created_at: '时间'
+        
+      message:
+        title: '标题'
+        content: '内容'
+        to: '用户'
+        read_at: '已读时间'
+        created_at: '创建时间'
+      red_packet:
+        title: '主题'
+        money: '金额(元)'
+        quantity: '个数'
+        location_str: '红包投放位置'
+        _type: '红包类型'
+        sort: '显示顺序'
+        min_value: '红包最少金额'
+        max_value: '红包最大金额'
+        owner_id: '所属商家'
+        has_ads: '是否有广告'
+      ad:
+        oid: '广告ID'
+        owner_id: '所有者'
+        file: '广告文件'
+        link: '广告链接地址'
+        score: '广告权重'
+        view_count: '展示量'
+        click_count: '点击量'
+        duration: '广告长度（秒）'
+        opened: '是否投放'
+      withdraw:
+        oid: '流水号'
+        money: '金额'
+        fee: '手续费'
+        account_no: '账号'
+        account_name: '提现人'
+        user_id: '所属用户'
+        payed_at: '支付时间'
+      charge:
+        uniq_id: '流水号'
+        money: '金额'
+        user_id: '所属用户'
+        payed_at: '到账时间'
+        ip: 'IP'
+      trade_log: 
+        user_id: '用户'
+        created_at: '交易时间'
+        money: '金额'
+        title: '交易说明'
+        tradeable: '交易对象'
+      wechat_location:
+        user_id: '用户'
+        lat: '纬度'
+        lng: '经度'
+        address: '位置'
+        formated_address: '地标'
+        precision: '精度'
+        created_at: 'at'
+      like:
+        likeable: '点赞对象'
+        location: '位置'
+        ip: 'IP'
+        created_at: '时间'
+        user_id: '用户'
+      site_config:
+        key: "配置名称"
+        value: "配置值"
+        description: "配置说明"
+      admin:
+        email: "邮箱"
+        password: "密码"
+        current_password: "旧密码"
+        password_confirmation: "确认密码"
+        current_sign_in_at: "最新登录时间"
+        sign_in_count: "登录次数"
+        created_at: "创建时间"
+        role: "角色"
+      merchant:
+        name: '名称'
+        mobile: '联系电话'
+        address: '地址'
+        note: '备注'
+        logo: 'LOGO'
+        opened: '是否启用'
+        auth_type: '认证类型'
+        balance: '余额'
+        uniq_id: 'ID'
+      merchant_home_page:
+        merchant_id: '所属商家'
+        title: '页面标题'
+        body: '页面详情'
+        images: '页面图片'
+        sort: '显示顺序'
+      page:
+        title: '标题'
+        body:  '内容'
+        slug:  '文档标识'
+      admin_user:
+        email: '邮箱'
+        password: '密码'
+        password_confirmation: '确认密码'
+        current_sign_in_at: '最新登录时间'
+        sign_in_count: '登录次数'
+        created_at: '创建时间'
+        
+    errors:
+      models:
+        user: "用户"
+        admin: "管理员"
+        category: "类别"
+      messages:
+        inclusion: "不包含于列表中"
+        exclusion: "是保留关键字"
+        invalid: "是无效的"
+        confirmation: "与确认值不匹配"
+        accepted: "必须是可被接受的"
+        empty: "不能留空"
+        blank: "不能为空字符"
+        too_long: "过长（最长为 %{count} 个字符）"
+        too_short: "过短（最短为 %{count} 个字符）"
+        wrong_length: "长度非法（必须为 %{count} 个字符）"
+        taken: "已经被使用"
+        not_a_number: "不是数字"
+        not_an_integer: "必须是整数"
+        greater_than: "必须大于 %{count}"
+        greater_than_or_equal_to: "必须大于或等于 %{count}"
+        equal_to: "必须等于 %{count}"
+        less_than: "必须小于 %{count}"
+        less_than_or_equal_to: "必须小于或等于 %{count}"
+        odd: "必须为单数"
+        even: "必须为双数"
+        record_invalid: "校验失败: %{errors}"
+        taken:
+          已占用
+        document_not_found:
+          没有发现类是 %{klass} ID 是 %{identifiers} 的文档
+        invalid_database:
+          数据库应该是Mongo::DB,而不是%{name}.
+        invalid_type:
+          在类%{klass}中定义了字段,实际值是%{value}的%{other}.
+        unsupported_version:
+          MongoDB %{version} 版本已过期，请升级到 %{mongo_version}.
+        validations:
+          校验失败 - %{errors}.
+        invalid_collection:
+          不允许直接访问嵌入式的集合%{klass} , 请从文档的根访问集合.
+        invalid_field:
+          字段的名字不允许为 %{name}. 你不应该定义跟Mongoid内部属性或者方法相同的名字，详细请看Use Document#instance_methods.
+        too_many_nested_attribute_records:
+          被关联的%{association} 嵌入式属性不能超过 %{limit}.
+        embedded_in_must_have_inverse_of:
+          embedded_in的关联属性必须包含inverse_of.
+        dependent_only_references_one_or_many:
+          dependent => destroy|delete 选项只有在references_one或者references_many时候有效.
+        association_cant_have_inverse_of:
+          在当前的关联中，不允许定义inverse_of去,其只有在embedded_in或者references_many是数组的情况下使用
+        unsaved_document:
+          You cannot call create or create! through a relational association
+          relation (%{document}) who's parent (%{base}) is not already saved.

@@ -1,0 +1,60 @@
+<div class="wallet-box">
+  <div class="user-info">
+    <%= image_tag current_user.wechat_profile.try(:headimgurl), class: 'avatar' %>
+    <p class="name"><%= current_user.wechat_profile.try(:nickname) %></p>
+  </div>
+  <div class="balance">
+    <p>余额</p>
+    <p class="money"><%= '%.2f' % (current_user.balance || 0) %><span class="unit">元</span></p>
+  </div>
+</div>
+
+<div class="box">
+  <h2>支付宝提现</h2>
+  <% if params[:msg] %>
+  <div class='alert alert-<%= params[:code].to_i == 0 ? "success" : "danger"  %>' style="margin-top: 10px;" id='notice-comp'><a class='close' href='#' data-dismiss='alert'>×</a><%= params[:msg] %></div>
+  <% end %>
+  <div class="withdraw-commit">
+    <div class="form-group row">
+      <label for="money" class="col-xs-3 col-form-label">提现金额</label>
+      <div class="col-xs-9">
+        <input type="text" readonly class="form-control" id="money" value="<%= '%.2f' % (current_user.balance || 0) %>">
+      </div>
+    </div>
+    
+    <div class="form-group row">
+      <label for="account" class="col-xs-3 col-form-label">账号</label>
+      <div class="col-xs-9">
+        <input type="text" class="form-control" id="account" value="<%= @withdraw.try(:account_no) %>" aria-describedby="emailHelp" placeholder="支付宝账号（手机或邮箱）">
+      </div>
+      <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    </div>
+    
+    <div class="form-group row">
+      <label for="name" class="col-xs-3 col-form-label">姓名</label>
+      <div class="col-xs-9">
+        <input type="text" class="form-control" value="<%= @withdraw.try(:account_name) %>" id="name" placeholder="支付宝实名认证的姓名">
+      </div>
+    </div>
+    
+    <div class="form-group row">
+      <div class="col-xs-9 col-xs-offset-3">
+        <button type="button"
+          data-loading-text="提交中..."
+          data-loading="0"
+          data-money="<%= current_user.balance %>"
+          onclick="App.withdraw(this, '<%= current_user.private_token %>')"
+         class="btn btn-success">确认提现</button>
+      </div>
+      
+    </div>
+    
+  </div>
+</div>
+
+<div class="withdraw-help box">
+  <h2>提现说明</h2>
+  <div class="tips">
+    <%= raw Page.find_by(slug: 'withdraw_help').body %>
+  </div>
+</div>

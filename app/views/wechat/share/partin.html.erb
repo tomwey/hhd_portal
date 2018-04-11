@@ -1,0 +1,140 @@
+<div class="share-partin">
+<!-- 广告基本信息 -->
+  <div class="base-info">
+    <h2 class="title">
+      <%= @partin.info_item.try(:title) %>
+    </h2>
+    <p class="stats">
+      <!-- 人气 <%= @partin.view_count %>, 转发 <%= @partin.share_count %>, 参与 <%= @partin.take_count %> -->
+      <%= @partin.created_at.strftime('%Y-%m-%d') %>&emsp;<%= @partin.merchant.try(:name) %>
+    </p>
+  </div>
+  
+<!-- 商家资料 -->
+  <!-- <div class="merchant-info clearfix">
+    <% if @partin.merchant.logo %>
+    <%=  image_tag @partin.merchant.logo.url(:big), class: 'avatar pull-left' %>
+    <% end %>
+    <div class="profile pull-left">
+      <h3><%= @partin.merchant.try(:name) %></h3>
+      <p><%= @partin.merchant.tags.join(',') %></p>
+    </div>
+  </div> -->
+  
+<!-- 广告详情 -->
+  <div class="body">
+    <%= simple_format @partin.info_item.try(:body) %>
+  </div>
+  
+  <div class="event-stats">
+    阅读 <%= @partin.view_count %>, 转发 <%= @partin.share_count %>, 参与 <%= @partin.take_count %>
+  </div>
+  
+</div>
+
+  <% if (@partin.can_take && !@has_taked) %>
+<!-- 参与规则 -->
+  <div class="rule-box">
+    <h2 class="rule-name"><%= I18n.t("common.#{@partin.ruleable_type}.title") %></h2>
+    <% if @partin.ruleable_type != 'SharePoster' %>
+    <p class="grab-tip"><%= @partin.take_tip %></p>
+    <% else %>
+    <p class="grab-tip">长按下图，识别二维码抢红包</p>
+    <% end %>
+    <div class="rule-content">
+      <% if @partin.ruleable_type == 'Question' %>
+        <h4 class="question"><%= @partin.ruleable.question %></h4>
+        <% if @partin.ruleable.answers.any? %>
+          <% @partin.ruleable.answers.each_with_index do |answer,index| %>
+          <div class="radio1">
+            <label>
+              <input type="radio" name="answerOption" id="optionsRadios<%= index %>" value="<%= answer %>">
+              <%= answer %>
+            </label>
+          </div>
+          <% end %>
+        <% else %>
+          <input type="text" name="answerOption2" id="sign-answer" class="form-control" placeholder="输入答案">
+        <% end %>
+      <% elsif @partin.ruleable_type == 'LocationCheckin' %>
+        <p class="address"><%= @partin.ruleable.try(:address) %></p>
+      <% elsif @partin.ruleable_type == 'SharePoster' %>
+        <img src="<%= @partin.share_poster_image_for_user(current_user) %>">
+      <% end %>
+    </div>
+    
+    <% if @partin.ruleable_type != 'SharePoster' %>
+    <div class="grab-btn">
+      <button id="commitBtn" data-eid="<%= @partin.uniq_id %>" 
+          type="button" 
+          data-loading-text="提交中..." 
+          data-loading="0" 
+          data-from-user="<%= params[:f] %>"
+          data-type="<%= @partin.ruleable_type %>" 
+          onclick="App.takePartin(this, '<%= current_user.private_token %>')" 
+          class="btn btn-block btn-danger"><%= I18n.t("common.#{@partin.ruleable_type}.action") %></button>
+    </div>
+    <% end %>
+  <!-- </div> -->
+  
+  <% else %>
+   
+    <!-- <% if @partin.has_share_prize? %>
+    <div class="share-help">
+      点击右上角分享给朋友，朋友参与您也会获得奖励
+    </div>
+    <% else %>
+    <div class="share-help">
+      点击右上角分享给朋友
+    </div>
+    <% end %> -->
+  <% end %>
+  
+  <!-- <% if @partin.ruleable_type != 'SharePoster' %>
+  <div class="follow-tip event-body">
+    <%= simple_format Page.find_by(slug: 'offical_share_tip_image').try(:body) %>
+  </div>
+  <% end %> -->
+</div>
+
+<% if current_user %>
+<a class="fab-button" href="<%= wechat_wallet_path %>">
+  <!-- <i class="icon-wallet"></i> -->
+  <%= image_tag 'icon_wallet.svg', class: 'icon-wallet' %>
+  <p class="money"><%= '%.2f' % (current_user.balance || 0) %></p>
+</a>
+<% end %>
+
+<% content_for :scripts do %>
+<script>
+    
+  App.wxConfig({
+    debug: <%= @sign_package[:debug] %>,
+    appId: '<%= @sign_package[:appId] %>',
+    timestamp: <%= @sign_package[:timestamp] %>,
+    nonceStr: '<%= @sign_package[:nonceStr] %>',
+    signature: '<%= @sign_package[:signature] %>',
+    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone','openLocation','getLocation']
+  }, function(res) {
+    // console.log(res);
+    
+    App.wxShare({
+      title: '<%= @share_title %>',
+      desc: '<%= CommonConfig.share_desc || '' %>',
+      link: '<%= request.original_url %>',
+      img_url: '<%= @share_image_url %>',
+    }, function(res) {
+      // 成功sendShareStat
+      App.sendPartinShareStat('<%= params[:f] %>','<%= current_user.private_token %>', '<%= @partin.uniq_id %>')
+    }, function() {
+      // 取消
+    }, function(error) {
+      // 失败
+    });
+  }, function(error) {
+    // console.log(error);
+  });
+  
+  App.viewPartin('<%= params[:f] %>', '<%= current_user.private_token %>', '<%= @partin.uniq_id %>');
+</script>
+<% end %>
