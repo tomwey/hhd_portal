@@ -1,39 +1,5 @@
-<div class="partin-share-result">
-  <div class="merchant-info">
-    <img src="<%= @partin.merchant.logo.url(:big) %>" class="avatar">
-    <p class="name"><%= @partin.merchant.name %></p>
-  </div>
-  <div class="partin-result">
-    <%= @resultDesc %>
-  </div>
-  <% if @log %>
-  <div class="partin-result-detail">
-    <% if @log.resultable_type == 'UserRedpack' %>
-    <div class="money">
-      <%= '%.2f' % (@log.resultable.money / 100.0) %><span class="unit">元</span>
-    </div>
-    <% elsif @log.resultable_type == 'UserCard' %>
-    <div class="card">
-      <img src="<%= @log.resultable.url(:small) %>">
-    </div>
-    <% end %>
-  </div>
-  <% end %>
-  
-  <!-- <div class="follow-help">
-    <p class="tip"><%= @log.blank? ? '关注下方二维码赚更多奖励' : '关注下方二维码领取奖励' %></p>
-    <%= image_tag CommonConfig.offical_share_result_qrcode, class: 'qrcode-img' %>
-  </div> -->
-  
-  <!-- <% if @partin.need_share %>
-  <div class="share-box">
-    <%= link_to (@partin.has_share_prize? ? '分享给朋友，继续赚奖励！' : '分享给朋友'), "/wx/share/partin?id=#{@partin.uniq_id}&f=#{@token}", class: 'btn btn-danger custom-button' %>
-  </div>
-  <% end %> -->
-    <div class="buttons">
-      <%= link_to '立即提现', wechat_wallet_path, class: 'withdraw-link' %>
-      <% if @partin.need_share %>
-      <%= link_to '分享给朋友', "/wx/events/portal?id=#{@partin.uniq_id}&f=#{@token}", class: 'btn btn-danger custom-button' %>
-      <% end %>
-    </div>
-</div>
+<% content_for :scripts do %>
+<script>
+  window.location.href = '<%= @event_result %>';
+</script>
+<% end %>

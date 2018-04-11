@@ -49,11 +49,12 @@ Rails.application.routes.draw do
     delete 'logout'   => 'sessions#destroy',   as: :logout
     
     # 我的钱包
-    get 'wallet' => 'share#wallet', as: :wallet
+    get 'wallet' => 'events#wallet', as: :wallet
     
     # 最新的活动路由
     get '/event/portal' => 'events#portal', as: :event_portal
     get '/event'  => 'events#share',  as: :event_share
+    get '/event/result'  => 'events#result',  as: :event_result2
     
   end
   
