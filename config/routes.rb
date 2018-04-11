@@ -50,6 +50,7 @@ Rails.application.routes.draw do
     
     # 我的钱包
     get 'wallet' => 'events#wallet', as: :wallet
+    get 'wallet_result' => 'events#wallet_result', as: :wallet_result
     
     # 最新的活动路由
     get '/event/portal' => 'events#portal', as: :event_portal

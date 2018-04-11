@@ -24,6 +24,14 @@ class Wechat::EventsController < Wechat::ApplicationController
     end
   end
   
+  def wallet_result
+    if request.query_string.present?
+      @event_wallet_res = "#{SiteConfig.hhd_event_portal}/wx/wallet_result?" + request.query_string
+    else
+      @event_wallet_res = "#{SiteConfig.hhd_event_portal}/wx/wallet_result"
+    end
+  end
+  
   def result
     if request.query_string.present?
       @event_result = "#{SiteConfig.hhd_event_portal}/wx/event/result?" + request.query_string
