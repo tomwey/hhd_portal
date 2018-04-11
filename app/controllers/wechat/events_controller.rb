@@ -54,12 +54,12 @@ class Wechat::EventsController < Wechat::ApplicationController
   
   def share
     @event_portal = "#{SiteConfig.hhd_event_portal}/wx/event/portal?" + request.query_string
-    url = request.original_url#"#{SiteConfig.hhd_event_portal}/wx/event/portal?" + request.original_url.split('?').last
-    
-    redirect_url  = "#{SiteConfig.wx_auth_redirect_uri}?url=#{url}"#"#{wechat_auth_redirect_url}?url=#{request.original_url}"
-    
-    @wechat_auth_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{SiteConfig.wx_app_id}&redirect_uri=#{Rack::Utils.escape(redirect_url)}&response_type=code&scope=snsapi_userinfo&state=yujian#wechat_redirect"
-    # redirect_to "#{SiteConfig.hhd_event_portal}/wx/event/portal?" + request.original_url.split('?').last
+    # url = request.original_url#"#{SiteConfig.hhd_event_portal}/wx/event/portal?" + request.original_url.split('?').last
+    #
+    # redirect_url  = "#{SiteConfig.wx_auth_redirect_uri}?url=#{url}"#"#{wechat_auth_redirect_url}?url=#{request.original_url}"
+    #
+    # @wechat_auth_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{SiteConfig.wx_app_id}&redirect_uri=#{Rack::Utils.escape(redirect_url)}&response_type=code&scope=snsapi_userinfo&state=yujian#wechat_redirect"
+    redirect_to @event_portal
   end
   
   # 活动参与结果
