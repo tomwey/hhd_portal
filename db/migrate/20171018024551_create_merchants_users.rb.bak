@@ -1,9 +1,0 @@
-class CreateMerchantsUsers < ActiveRecord::Migration
-  def change
-    create_table :merchants_users, id: false do |t|
-      t.belongs_to :user, index: true
-      t.belongs_to :merchant, index: true
-    end
-    add_index :merchants_users, [:merchant_id, :user_id], unique: true
-  end
-end
