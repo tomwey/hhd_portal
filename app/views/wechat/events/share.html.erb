@@ -1,9 +1,5 @@
 <% content_for :scripts do %>
 <script>
-  <% if current_user.blank? %>
-  window.location.href = '<%= @wechat_auth_url %>'
-  <% else %>
   window.location.href = '<%= @event_portal %>'
-  <% end %>
 </script>
 <% end %>
