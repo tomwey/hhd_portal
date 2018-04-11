@@ -43,16 +43,6 @@ Rails.application.routes.draw do
     
     get '/stats' => 'stats#index'
     
-    
-    
-    # 抽奖路由
-    resources :lucky_draws, path: :cj, only: [:show] do
-      member do
-        post :begin
-        get  :results
-      end
-    end
-    
     # 网页认证登录
     get    'login'    => 'sessions#new',       as: :login
     get    'redirect' => 'sessions#save_user', as: :redirect_uri
@@ -65,45 +55,16 @@ Rails.application.routes.draw do
     get '/event/portal' => 'events#portal', as: :event_portal
     get '/event'  => 'events#share',  as: :event_share
     
-    # get '/event/test1' => 'events#test1'
-    # get '/event/test2' => 'events#test2'
-    
-  end
-  
-  get '/qq/auth' => 'wechat/portal#qq_auth', as: :qq_auth
-  
-  namespace :app do 
-    get '/download' => 'home#download', as: :download
-    get '/install'  => 'home#install',  as: :install
-    # get '/hack_download' => 'home#hack_download', as: :hack_download
-    # get '/download/:filename.:format' => 'home#download2'
-  end
-  
-  ########## 微信支付审核官方网页 ############
-  namespace :approve, path: '' do
-    root 'home#index'
-    get '/new-event' => 'home#new_event'
-    get '/charge'    => 'home#charge'
-    get '/about'    => 'home#about'
-    get '/events/:event_id/body' => 'home#event_body', as: :event_body
-  end
-  
-  ######## 积分墙服务器回调 ################
-  namespace :offerwall do
-    get '/callback'          => 'home#callback'
-    # get '/:channel_id/tasks' => 'home#tasks'
   end
   
   # 网页文档
   resources :pages, path: :p, only: [:show]
   
-  resources :events, only: [:new, :create]
-  
   # 后台系统登录
-  devise_for :admins, ActiveAdmin::Devise.config
+  # devise_for :admins, ActiveAdmin::Devise.config
   
   # 后台系统路由
-  ActiveAdmin.routes(self)
+  # ActiveAdmin.routes(self)
   
   # 商家会员系统登录
   # devise_for :merchants, path: "account", controllers: {
@@ -123,10 +84,10 @@ Rails.application.routes.draw do
   end
   
   # API 文档
-  mount GrapeSwaggerRails::Engine => '/apidoc'
+  # mount GrapeSwaggerRails::Engine => '/apidoc'
   # 
   # API 路由
-  mount API::Dispatch => '/api'
+  # mount API::Dispatch => '/api'
   
   match '*path', to: 'home#error_404', via: :all
 end
